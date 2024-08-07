@@ -1,0 +1,36 @@
+
+
+type User {
+    userId: Int!
+    username: String
+    password: String
+    isEnabled: Boolean
+    createdAt: String
+    role: Role
+}
+
+type Role {
+    roleId: Int!
+    name: String
+}
+
+type UserDto {
+    userId: Int
+    status: Boolean
+    userName: String
+    createdAt: String
+    role: Role
+    employee: Employee
+    profileImage: String
+}
+
+type UserDtoConnection {
+    data: [UserDto]
+    totalCount: Int
+    pagination: Pagination
+}
+
+input AuthRequest {
+    username: String!
+    password: String!
+}

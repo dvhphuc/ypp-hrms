@@ -1,0 +1,92 @@
+# Define a query to fetch employees
+type Query {
+    #EmployeeManagement:
+    employees(departmentIds: [Int], currentContracts: [Int],status: Boolean, name: String, pageNo: Int = 1, pageSize: Int = 10): EmployeePaging!
+    employee(id: Int!): EmployeeDTO
+    newEmployees: [EmployeeDTO]
+    currentHeadcounts: PercentageChangeDTO
+    headcountChart: BarChartDTO
+    employeeOverview(employeeId: Int!): EmployeeOverviewDTO
+    departmentHeadcount(departmentId: Int!): PercentageChangeDTO
+    departmentHeadcountChart(departmentId: Int!): BarChartDTO
+
+
+    #UserManagement:
+    user(userId: Int): UserDto
+    users(search: String, roleId: Int, status: Boolean, pageNo: Int, pageSize: Int = 10): UserDtoConnection
+    getUsers: [UserDto]
+
+
+
+    #Company:
+    departments: [Department]
+    NumberOfDepartments: Int
+    positions: [Position]
+    jobLevels: [JobLevel]
+    roles: [Role]
+    competencies: [Competency]
+    proficiencyLevels: [ProficiencyLevel]
+    evaluateCycles: [EvaluateCycle]
+    competencyTimeLine(evaluateCycleId: Int!): [TimeLine]
+    performanceTimeLine(evaluateCycleId: Int!): [TimeLine]
+    positionLevelSkills(positionId: Int!, jobLevelId: Int!): [SimpleItemDTO] #old name: skills(positionId: Int!): [SimpleItemDTO]
+    templates: [TemplateDTO]
+
+
+
+    #CompetencyEvaluation:
+    departmentInCompleteComp(evaluateCycleId: Int!): MultiBarChartDTO
+    competencyEvalProgress(evaluateCycleId: Int!): PieChartDTO
+    topCompetencyRating(departmentId: Int, cycleId: Int!, pageNo: Int, pageSize: Int): EmployeeRatingPagination
+    avgCompetencyScore(positionId: Int, evaluateCycleId: Int!): [HeatmapItemDTO]
+    competencyRadarChart(evaluateCycleIds: [Int]!, departmentId: Int!): RadarChartDTO
+    topSkill(departmentId: Int, employeeId: Int, evaluateCycleId: Int, pageNo: Int = 1, pageSize: Int = 10): DataItemPagingDTO
+    topKeenSkillEmployee(employeeId: Int!, pageNo: Int = 1, pageSize: Int = 10): DataItemPagingDTO
+    topHighestSkillTargetEmployee(employeeId: Int!, pageNo: Int = 1, pageSize: Int = 10): DataItemPagingDTO
+    employeeSkillMatrix(employeeId: Int!): [SkillMatrixTree]
+    skillMatrixOverall(employeeId: Int!): SkillMatrixOverall
+    currentEvaluation(employeeId: Int!): [CurrentEvaluation]
+    historyEvaluation(employeeId: Int!): [HistoryEvaluation]
+    getOverallCompetencyScore(employeeId: Int!): RadarChartDTO
+    skillSummarization(employeeId: Int!, cycleId: Int!): SkillSummarization
+    companyCompetencyDiffPercent(departmentId: Int): DiffPercentDTO
+    competencyChart(departmentId: Int): BarChartDTO
+    overallCompetencyRadarChart(employeeId: Int!, cycleId: Int!): RadarChartDTO
+    skillGapBarChart(employeeId: Int!, cycleId: Int!): BarChartDTO
+    departmentEmployees(departmentId: Int!, positionId: Int!): [SimpleItemDTO]
+    departmentSkillHeatMap(departmentId: Int!, cycleId: Int!, employeeIds: [Int]!, skillIds: [Int]): [HeatmapItemDTO]
+    competencyEvaluationStatus(cycleId: Int!, departmentId: Int!, pageNo: Int, pageSize: Int): EmployeeStatusPagination
+    employeesInDepartment(departmentId: Int!): [NameImageDTO]
+    departmentCompetencyGap(cycleId: Int!, employeeIds: [Int]!): RadarChartDTO
+    incompletedEvaluationByPosition(cycleId: Int!, departmentId: Int!): MultiBarChartDTO
+    evaluateCyclePeriod(evaluateCycleId: Int!): String
+    evaluateSkillForm(employeeId: Int!): [TreeSimpleData]
+    competencyGroups: [CompetencyGroup]
+    evaluationResult(employeeId: Int!, cycleId: Int!): [EvaluationResult]
+    trackEvaluationProgress(cycleId: Int!, pageNo: Int = 1, pageSize: Int = 10): EmployeeEvaProgressPaging
+
+    #PerformanceEvaluation:
+    performanceEvaluationOverview(cycleId: Int!, departmentId: Int) : DiffPercentDTO
+    performanceRatingScheme(cycleId: Int!, departmentId: Int) : BarChartDTO
+    departmentInCompletePerform(evaluateCycleId: Int!): MultiBarChartDTO
+    performanceEvalProgress(evaluateCycleId: Int!): PieChartDTO
+    averagePerformanceScore(cycleId: Int!): Float
+    topPerformers(departmentId: Int, cycleId: Int!, pageNo: Int, pageSize: Int): EmployeeRatingPagination
+    employeesPotentialPerformance(departmentId: Int, cycleId: Int): [EmployeePotentialPerformanceDTO]
+    performanceByJobLevel(positionId: Int!, cycleId: Int!) : StackedBarChart
+    employeePerformanceRatingScore(employeeId: Int!, pageNo: Int = 1, pageSize: Int = 10): DataItemPagingDTO
+    potentialAndPerformanceByPosition(departmentId: Int, cycleId: Int, positionId: Int): [EmployeePotentialPerformanceDTO!]
+    evaluationCycles: [EvaluationCycle]
+    performanceCyclePeriod(cycleId: Int!): String
+    templatedAndQuestion(cycleId: Int!): TemplateQuestionDTO
+    feedbacks(feedbackReceiverId: Int!, cycleId: Int!) : [FeedbackDTO]
+
+    #CarreerManagement:
+    getNextPositionLevel(currentPositionLevelId: Int!): [PositionLevel]
+    getCareerPath(employeeId: Int!): PositionLevelNodeDTO
+
+    goalsByDepartmentAndCycle(departmentId: Int!, cycleId: Int!, pageNo: Int, pageSize: Int): EmployeeGoalPagination
+    goalsStatusPieChart(departmentId: Int!, cycleId: Int!) : PieChartDTO
+    goalsCountingStatistic(departmentId: Int!, cycleId: Int!): CountAndPercentDTO
+    goalsByEmployee(employeeId: Int!, pageNo: Int!, pageSize: Int = 10) : GoalPagination
+}
